@@ -10,7 +10,7 @@ export default function BlogCard({ post }: Props) {
     <article className="blog-card">
       <div className="blog-card-meta">
         <time dateTime={post.date}>
-          {new Date(post.date).toLocaleDateString("en-US", {
+          {new Date(post.date + "T00:00:00").toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
             day: "numeric",
