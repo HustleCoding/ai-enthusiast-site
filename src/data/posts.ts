@@ -13,6 +13,7 @@ export const blogPosts: BlogPost[] = [
 Unlike proprietary models locked behind APIs, Kimi K2 ships under an Apache 2.0–style license. You can fine-tune it, deploy it on your own hardware, and build commercial products on top of it.
 
 The benchmarks speak for themselves:
+
 - **SWE-bench Verified**: 65.8% (state-of-the-art for open models)
 - **AIME 2025**: 70.0% (strong mathematical reasoning)
 - **Codeforces Rating**: 1,636 (competitive programming territory)
@@ -44,6 +45,7 @@ This is the kind of release that makes proprietary model providers nervous — a
 ## Hardware Requirements
 
 Let's be realistic about what you need:
+
 - **Full precision (FP16)**: 8×A100 80GB or equivalent
 - **GPTQ 4-bit quant**: 2×A100 or 4×RTX 4090
 - **GGUF Q4_K_M**: Fits on a single machine with 128GB RAM (CPU inference)
@@ -90,6 +92,7 @@ The open-source AI ecosystem keeps delivering. Every month the gap between open 
 ## Models
 
 My go-to models right now:
+
 - **Kimi K2** for agentic tasks and coding
 - **DeepSeek V3** for reasoning-heavy workloads
 - **Llama 3.1 405B** for general-purpose tasks
@@ -134,6 +137,7 @@ GPT-4 is optimized to be good at everything. Your fine-tuned model only needs to
 ## Data Quality > Data Quantity
 
 The single most impactful thing you can do:
+
 1. Curate 500–2,000 high-quality examples
 2. Ensure consistent formatting and labeling
 3. Include edge cases and failure modes
@@ -163,6 +167,7 @@ model = FastLanguageModel.get_peft_model(
 ## Evaluation Strategy
 
 Always compare against:
+
 - The base model (to measure improvement)
 - GPT-4o via API (to measure the gap)
 - Your previous best model (to track progress)

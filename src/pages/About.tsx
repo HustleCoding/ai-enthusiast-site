@@ -1,5 +1,3 @@
-import { Globe, MessageSquare, Mail, ExternalLink } from "lucide-react";
-
 export default function About() {
   return (
     <main>
@@ -34,52 +32,29 @@ export default function About() {
           <h2>What I'm Working On</h2>
           <ul>
             <li>
-              Benchmarking the latest open-weight models (Kimi K2, DeepSeek V3,
-              Llama 3.1, Qwen 2.5) across real-world tasks
+              Benchmarking the latest open-weight models across real-world tasks
             </li>
             <li>
               Building tools for efficient local inference and fine-tuning
             </li>
             <li>
-              Writing practical guides for developers who want to self-host AI
+              Writing practical guides for self-hosting AI
             </li>
             <li>
-              Contributing to open-source inference engines and evaluation
-              frameworks
+              Contributing to open-source inference engines
             </li>
           </ul>
 
           <h2>Get in Touch</h2>
           <div className="about-links">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary"
-            >
-              <Globe size={18} />
+            <a href="https://github.com" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary"
-            >
-              <MessageSquare size={18} />
-              Twitter / X
+            <a href="https://twitter.com" target="_blank" rel="noreferrer">
+              Twitter
             </a>
-            <a href="mailto:hello@openmind.dev" className="btn btn-secondary">
-              <Mail size={18} />
-              Email
-            </a>
-            <a
-              href="https://huggingface.co"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-secondary"
-            >
-              <ExternalLink size={18} />
+            <a href="mailto:hello@openmind.dev">Email</a>
+            <a href="https://huggingface.co" target="_blank" rel="noreferrer">
               Hugging Face
             </a>
           </div>

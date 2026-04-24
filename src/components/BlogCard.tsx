@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Clock, ArrowRight } from "lucide-react";
 import type { BlogPost } from "../types";
 
 interface Props {
@@ -13,14 +12,12 @@ export default function BlogCard({ post }: Props) {
         <time dateTime={post.date}>
           {new Date(post.date).toLocaleDateString("en-US", {
             year: "numeric",
-            month: "long",
+            month: "short",
             day: "numeric",
           })}
         </time>
-        <span className="read-time">
-          <Clock size={14} />
-          {post.readTime} min read
-        </span>
+        <span className="dot" />
+        <span>{post.readTime} min</span>
       </div>
 
       <h3 className="blog-card-title">
@@ -29,17 +26,12 @@ export default function BlogCard({ post }: Props) {
 
       <p className="blog-card-excerpt">{post.excerpt}</p>
 
-      <div className="blog-card-footer">
-        <div className="tags">
-          {post.tags.map((tag) => (
-            <span key={tag} className="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
-        <Link to={`/blog/${post.id}`} className="read-more">
-          Read more <ArrowRight size={16} />
-        </Link>
+      <div className="tags">
+        {post.tags.slice(0, 3).map((tag) => (
+          <span key={tag} className="tag">
+            {tag}
+          </span>
+        ))}
       </div>
     </article>
   );

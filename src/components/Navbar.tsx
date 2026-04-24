@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Brain } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { navLinks } from "../data/navigation";
 
 export default function Navbar() {
@@ -11,8 +11,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <Link to="/" className="logo" onClick={() => setOpen(false)}>
-          <Brain size={28} />
-          <span>openMind</span>
+          openMind
         </Link>
 
         <ul className={`nav-links ${open ? "nav-open" : ""}`}>
@@ -34,7 +33,7 @@ export default function Navbar() {
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
     </nav>

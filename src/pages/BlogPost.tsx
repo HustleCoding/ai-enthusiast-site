@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { blogPosts } from "../data/posts";
 
 function parseContent(content: string): string[] {
@@ -23,7 +23,7 @@ export default function BlogPost() {
         <section className="section" style={{ textAlign: "center" }}>
           <h1>Post not found</h1>
           <Link to="/blog" className="btn btn-primary" style={{ marginTop: "1.5rem", display: "inline-flex" }}>
-            <ArrowLeft size={18} /> Back to Blog
+            <ArrowLeft size={16} /> Back to Blog
           </Link>
         </section>
       </main>
@@ -34,24 +34,21 @@ export default function BlogPost() {
     <main>
       <article className="post">
         <Link to="/blog" className="back-link">
-          <ArrowLeft size={18} />
-          Back to Blog
+          <ArrowLeft size={16} />
+          Back
         </Link>
 
         <header className="post-header">
           <div className="post-meta">
             <span>
-              <Calendar size={14} />
               {new Date(post.date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </span>
-            <span>
-              <Clock size={14} />
-              {post.readTime} min read
-            </span>
+            <span className="dot" />
+            <span>{post.readTime} min read</span>
           </div>
           <h1>{post.title}</h1>
           <div className="tags">
