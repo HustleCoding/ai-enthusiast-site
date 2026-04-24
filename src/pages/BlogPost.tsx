@@ -2,6 +2,17 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { blogPosts } from "../data/posts";
 
+function parseContent(content: string): string[] {
+  const codeBlocks: string[] = [];
+  const withPlaceholders = content.replace(/```[\s\S]*?```/g, (match) => {
+    codeBlocks.push(match);
+    return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+  });
+  return withPlaceholders.split("\n\n").map((block) =>
+    block.replace(/__CODE_BLOCK_(\d+)__/g, (_, idx) => codeBlocks[Number(idx)])
+  );
+}
+
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
   const post = blogPosts.find((p) => p.id === id);
@@ -53,7 +64,7 @@ export default function BlogPost() {
         </header>
 
         <div className="post-body">
-          {post.content.split("\n\n").map((block, i) => {
+          {parseContent(post.content).map((block, i) => {
             if (block.startsWith("## ")) {
               return <h2 key={i}>{block.replace("## ", "")}</h2>;
             }
@@ -69,12 +80,18 @@ export default function BlogPost() {
             if (block.startsWith("- ")) {
               return (
                 <ul key={i}>
-                  {block.split("\n").map((line, j) => (
-                    <li key={j}>{line.replace(/^- \*\*(.+?)\*\*:?\s*/, "").length === line.replace("- ", "").length
-                      ? line.replace("- ", "")
-                      : <><strong>{line.match(/\*\*(.+?)\*\*/)?.[1]}</strong>{line.replace(/^- \*\*.+?\*\*:?\s*/, ": ")}</>
-                    }</li>
-                  ))}
+                  {block.split("\n").map((line, j) => {
+                    const boldMatch = line.match(/^- \*\*(.+?)\*\*(:\s*|\s+)(.*)/);
+                    if (!boldMatch) {
+                      return <li key={j}>{line.replace(/^- /, "")}</li>;
+                    }
+                    const sep = boldMatch[2].startsWith(":") ? ": " : " ";
+                    return (
+                      <li key={j}>
+                        <strong>{boldMatch[1]}</strong>{sep}{boldMatch[3]}
+                      </li>
+                    );
+                  })}
                 </ul>
               );
             }
