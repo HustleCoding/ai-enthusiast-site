@@ -1,3 +1,4 @@
+import { type ReactNode } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { blogPosts } from "../data/posts";
@@ -11,6 +12,36 @@ function parseContent(content: string): string[] {
   return withPlaceholders.split("\n\n").map((block) =>
     block.replace(/__CODE_BLOCK_(\d+)__/g, (_, idx) => codeBlocks[Number(idx)])
   );
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function renderInline(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  const re = /\*\*(.+?)\*\*|`(.+?)`/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+  while ((match = re.exec(text)) !== null) {
+    if (match.index > last) {
+      parts.push(text.slice(last, match.index));
+    }
+    if (match[1] !== undefined) {
+      parts.push(<strong key={key++}>{match[1]}</strong>);
+    } else if (match[2] !== undefined) {
+      parts.push(<code key={key++}>{match[2]}</code>);
+    }
+    last = re.lastIndex;
+  }
+  if (last < text.length) {
+    parts.push(text.slice(last));
+  }
+  return parts;
 }
 
 export default function BlogPost() {
@@ -77,18 +108,9 @@ export default function BlogPost() {
             if (block.startsWith("- ")) {
               return (
                 <ul key={i}>
-                  {block.split("\n").map((line, j) => {
-                    const boldMatch = line.match(/^- \*\*(.+?)\*\*(:\s*|\s+)(.*)/);
-                    if (!boldMatch) {
-                      return <li key={j}>{line.replace(/^- /, "")}</li>;
-                    }
-                    const sep = boldMatch[2].startsWith(":") ? ": " : " ";
-                    return (
-                      <li key={j}>
-                        <strong>{boldMatch[1]}</strong>{sep}{boldMatch[3]}
-                      </li>
-                    );
-                  })}
+                  {block.split("\n").map((line, j) => (
+                    <li key={j}>{renderInline(line.replace(/^- /, ""))}</li>
+                  ))}
                 </ul>
               );
             }
@@ -96,12 +118,12 @@ export default function BlogPost() {
               return (
                 <ol key={i}>
                   {block.split("\n").map((line, j) => (
-                    <li key={j}>{line.replace(/^\d+\.\s*/, "")}</li>
+                    <li key={j}>{renderInline(line.replace(/^\d+\.\s*/, ""))}</li>
                   ))}
                 </ol>
               );
             }
-            const rendered = block
+            const rendered = escapeHtml(block)
               .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
               .replace(/`(.+?)`/g, "<code>$1</code>");
             return (
